@@ -13,14 +13,11 @@ export default function main(_) {
      */
     (() => {
 
-        // TODO 如果字体不满意删除下面这个css即可，本提示还有多个
-        $('#homeTopTitle span').css('font-family', 'system-ui').text(_.__config.info.name);
+        $('#homeTopTitle span').text(_.__config.info.name);
 
         // 判断用户是否自定义了设置
         let configTitle = _.__config.banner.home.title,
             hitokoto = $('#hitokoto');
-        // TODO 如果字体不满意删除下面这行即可，本提示还有多个
-        hitokoto.css('font-family', 'system-ui', 'font-size', '2.05rem');
 
         if ($.isArray(configTitle) && configTitle.length > 0) {
 
@@ -45,10 +42,6 @@ export default function main(_) {
             '岁月不饶人，我亦未曾饶过岁月。', '当你凝视深渊时，深渊也在凝视着你。', '有的人25岁就死了，只是到75岁才埋葬'
         ], settings = {};
 
-        const hitokotoAuthor = $('#hitokotoAuthor');
-        // TODO 如果字体不满意删除下面这行即可，本提示还有多个
-        hitokotoAuthor.css('font-size', '1.7rem !important');
-
         switch (_.__config.banner.home.titleSource) {
             case "one": //  ONE . 每日一句
                 settings = {
@@ -70,7 +63,7 @@ export default function main(_) {
                 $.ajax(settings).done((response) => {
                     if (response.errno === 0) {
                         hitokoto.html(response.note).css('display', '-webkit-box');
-                        hitokotoAuthor.text(response.content).show();
+                        $('#hitokotoAuthor').text(response.content).show();
                     } else {
                         let listIndex = _.__tools.randomNum(0, topTitleList.length - 1);
                         hitokoto.html(topTitleList[listIndex]).css('display', '-webkit-box');
@@ -91,7 +84,7 @@ export default function main(_) {
                 $.ajax(settings).done((response) => {
                     if (response && response.id) {
                         hitokoto.html(`<a href="https://hitokoto.cn/" title="一言" style="color: rgba(255, 255, 255, .9);text-decoration: none;cursor: pointer;" target="_blank">${response.hitokoto}</a>`).css('display', '-webkit-box');
-                        hitokotoAuthor.html(`<a href="https://hitokoto.cn?uuid=${response.uuid}" title="查看详情" style="color: rgba(255, 255, 255, .8);text-decoration: none;cursor: pointer;" target="_blank">《${response.from}》- ${response.from_who}</a>`).show();
+                        $('#hitokotoAuthor').html(`<a href="https://hitokoto.cn?uuid=${response.uuid}" title="查看详情" style="color: rgba(255, 255, 255, .8);text-decoration: none;cursor: pointer;" target="_blank">《${response.from}》- ${response.from_who}</a>`).show();
                     } else {
                         let listIndex = _.__tools.randomNum(0, topTitleList.length - 1);
                         hitokoto.html(topTitleList[listIndex]).css('display', '-webkit-box');
@@ -113,7 +106,7 @@ export default function main(_) {
                 $.ajax(settings).done((response) => {
                     if (response && response.status === "success") {
                         hitokoto.html(response.data.content).css('display', '-webkit-box');
-                        hitokotoAuthor.text('《' + response.data.origin.title + '》 - ' + response.data.origin.dynasty + ' - ' + response.data.origin.author).show();
+                        $('#hitokotoAuthor').text('《' + response.data.origin.title + '》 - ' + response.data.origin.dynasty + ' - ' + response.data.origin.author).show();
                     } else {
                         let listIndex = _.__tools.randomNum(0, topTitleList.length - 1);
                         hitokoto.html(topTitleList[listIndex]).css('display', '-webkit-box');
