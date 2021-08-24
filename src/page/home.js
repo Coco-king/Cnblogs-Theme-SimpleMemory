@@ -13,11 +13,14 @@ export default function main(_) {
      */
     (() => {
 
-        $('#homeTopTitle span').text(_.__config.info.name);
+        // TODO 如果字体不满意删除下面这个css即可，本提示还有多个
+        $('#homeTopTitle span').css('font-family', 'system-ui').text(_.__config.info.name);
 
         // 判断用户是否自定义了设置
         let configTitle = _.__config.banner.home.title,
             hitokoto = $('#hitokoto');
+        // TODO 如果字体不满意删除下面这行即可，本提示还有多个
+        hitokoto.css('font-family', 'system-ui', 'font-size', '2.05rem');
 
         if ($.isArray(configTitle) && configTitle.length > 0) {
 
@@ -35,12 +38,16 @@ export default function main(_) {
 
         let topTitleList = [
             '每一个不曾起舞的日子，都是对生命的辜负。', '公主死去了，屠龙的少年还在燃烧', '我们听过无数的道理，却仍旧过不好这一生。',
-            '生如夏花之绚烂，死如秋叶之静美。', '但凡不能杀死你的，最终都会使你更强大。','好看的皮囊千篇一律，有趣的灵魂万里挑一。',
-            '青春是一本太仓促的书，我们含着泪，一读再读。', '教育就是当一个人把在学校所学全部忘光之后剩下的东西。','孤独不是一种脾性，而是一种无奈。',
+            '生如夏花之绚烂，死如秋叶之静美。', '但凡不能杀死你的，最终都会使你更强大。', '好看的皮囊千篇一律，有趣的灵魂万里挑一。',
+            '青春是一本太仓促的书，我们含着泪，一读再读。', '教育就是当一个人把在学校所学全部忘光之后剩下的东西。', '孤独不是一种脾性，而是一种无奈。',
             '有时候你以为天要塌下来了，其实是自己站歪了。', '温柔正确的人总是难以生存，因为这世界既不温柔，也不正确。', '死并非生的对立面，而作为生的一部分永存。',
             '不要努力成为一个成功者，要努力成为一个有价值的人。', '不要因为走得太远，忘了我们为什么出发。', '你的问题主要在于读书不多而想得太多。',
             '岁月不饶人，我亦未曾饶过岁月。', '当你凝视深渊时，深渊也在凝视着你。', '有的人25岁就死了，只是到75岁才埋葬'
         ], settings = {};
+
+        const hitokotoAuthor = $('#hitokotoAuthor');
+        // TODO 如果字体不满意删除下面这行即可，本提示还有多个
+        hitokotoAuthor.css('font-size', '1.7rem !important');
 
         switch (_.__config.banner.home.titleSource) {
             case "one": //  ONE . 每日一句
@@ -63,7 +70,28 @@ export default function main(_) {
                 $.ajax(settings).done((response) => {
                     if (response.errno === 0) {
                         hitokoto.html(response.note).css('display', '-webkit-box');
-                        $('#hitokotoAuthor').text(response.content).show();
+                        hitokotoAuthor.text(response.content).show();
+                    } else {
+                        let listIndex = _.__tools.randomNum(0, topTitleList.length - 1);
+                        hitokoto.html(topTitleList[listIndex]).css('display', '-webkit-box');
+                    }
+                    _.__tools.setDomHomePosition();
+                    return false;
+                });
+                break;
+
+            case "hitokoto": //  一言接口 https://hitokoto.cn/
+                settings = {
+                    "async": true,
+                    "crossDomain": true,
+                    "url": "https://v1.hitokoto.cn?encode=json&charset=utf-8&c=d&c=i&c=j",
+                    "method": "GET"
+                };
+
+                $.ajax(settings).done((response) => {
+                    if (response && response.id) {
+                        hitokoto.html(`<a href="https://hitokoto.cn/" title="一言" style="color: rgba(255, 255, 255, .9);text-decoration: none;cursor: pointer;" target="_blank">${response.hitokoto}</a>`).css('display', '-webkit-box');
+                        hitokotoAuthor.html(`<a href="https://hitokoto.cn?uuid=${response.uuid}" title="查看详情" style="color: rgba(255, 255, 255, .8);text-decoration: none;cursor: pointer;" target="_blank">《${response.from}》- ${response.from_who}</a>`).show();
                     } else {
                         let listIndex = _.__tools.randomNum(0, topTitleList.length - 1);
                         hitokoto.html(topTitleList[listIndex]).css('display', '-webkit-box');
@@ -85,7 +113,7 @@ export default function main(_) {
                 $.ajax(settings).done((response) => {
                     if (response && response.status === "success") {
                         hitokoto.html(response.data.content).css('display', '-webkit-box');
-                        $('#hitokotoAuthor').text('《'+response.data.origin.title+'》 - '+response.data.origin.dynasty+' - '+response.data.origin.author).show();
+                        hitokotoAuthor.text('《' + response.data.origin.title + '》 - ' + response.data.origin.dynasty + ' - ' + response.data.origin.author).show();
                     } else {
                         let listIndex = _.__tools.randomNum(0, topTitleList.length - 1);
                         hitokoto.html(topTitleList[listIndex]).css('display', '-webkit-box');
@@ -103,7 +131,9 @@ export default function main(_) {
     (() => {
         $('.scroll-down').click(function () {
             let endScroll;
-            endScroll = $('#home').offset().top + 10; _.__tools.actScroll(endScroll, 500);})
+            endScroll = $('#home').offset().top + 10;
+            _.__tools.actScroll(endScroll, 500);
+        })
     })();
 
     /**
@@ -150,7 +180,7 @@ export default function main(_) {
                 img.hide();
                 obj.css('width', '60%');
                 obj.parent('div').css('min-height', '150px');
-                let html = '<div class="c_b_p_desc_img"><div style="background: url(\''+ src +'\') center center / auto no-repeat;"></div></div>';
+                let html = '<div class="c_b_p_desc_img"><div style="background: url(\'' + src + '\') center center / auto no-repeat;"></div></div>';
                 obj.after(html);
             }
         });
