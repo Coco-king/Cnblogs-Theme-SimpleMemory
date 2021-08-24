@@ -84,7 +84,7 @@ export default function main(_) {
                 $.ajax(settings).done((response) => {
                     if (response && response.id) {
                         hitokoto.html(`<a href="https://hitokoto.cn/" title="一言" style="color: rgba(255, 255, 255, .9);text-decoration: none;cursor: pointer;" target="_blank">${response.hitokoto}</a>`).css('display', '-webkit-box');
-                        $('#hitokotoAuthor').html(`<a href="https://hitokoto.cn?uuid=${response.uuid}" title="查看详情" style="color: rgba(255, 255, 255, .8);text-decoration: none;cursor: pointer;" target="_blank">《${response.from}》- ${response.from_who}</a>`).show();
+                        $('#hitokotoAuthor').html(`<a href="https://hitokoto.cn?uuid=${response.uuid}" title="查看详情" style="color: rgba(255, 255, 255, .8);text-decoration: none;cursor: pointer;" target="_blank">《${response.from}》- ${response.from_who ? response.from_who : '匿名'}</a>`).show();
                     } else {
                         let listIndex = _.__tools.randomNum(0, topTitleList.length - 1);
                         hitokoto.html(topTitleList[listIndex]).css('display', '-webkit-box');
