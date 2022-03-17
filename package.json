@@ -46,6 +46,7 @@
     "yamljs": "^0.3.0"
   },
   "dependencies": {
+    "gsap": "^3.9.1",
     "lodash": "^4.17.21"
   },
   "browserslist": {
