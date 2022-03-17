@@ -170,12 +170,30 @@ window.cnblogsConfig = {
 * 类型：```Url```
 * 默认值：```""```
 
-侧边栏个人信息背景图片Url。
+< v2.1.0 侧边栏个人信息背景图片Url。
+>= v2.1.0 侧边栏背景图片。
 
 ```javascript
 window.cnblogsConfig = {
   sidebar: {
     infoBackground: 'https://x1.jpg',
+  },
+}
+```
+
+### titleMsg - 侧边栏title信息
+
+?> 版本 >= v2.1.0
+
+* 类型：```String```
+* 默认值：```"欢迎访问本博客~"```
+
+配置侧边栏title信息
+
+```javascript
+window.cnblogsConfig = {
+  sidebar: {
+      titleMsg: '欢迎访问本博客~',
   },
 }
 ```
@@ -665,6 +683,8 @@ window.cnblogsConfig = {
 
 ?> 版本 v2.0.3 及之后，所有动效默认配置为关闭。
 
+?> 动效会消耗GPU，请大家按需选择开启
+
 ### homeBanner - 主页banner动效
 
 * 类型：```Object```
@@ -774,6 +794,93 @@ window.cnblogsConfig = {
 window.cnblogsConfig = {
   animate: {
     background: {
+      enable: true,
+    },
+  }
+}
+```
+
+### bannerImages - banner背景图自动切换动效
+
+?> 版本 >= v2.0.8
+
+* 类型：```Object```
+* 默认值：
+
+```json
+{
+  enable: false, // 是否开启
+  options: {
+    itemNum: 5, // 图片拆分成几列
+    current: 0, // 初始图片的下标，如果为负数则为随机
+    sort: 1, // 1 代表每次向下加载一个图片，-1 代表每次向上加载一个图片
+    time: 30000 // 每次切换间隔时间，单位：毫秒
+  }
+}
+```
+
+banner背景图自动切换动效。
+
+```javascript
+window.cnblogsConfig = {
+  animate: {
+    bannerImages: {
+      enable: true,
+    },
+  }
+}
+```
+
+### backgroundMouse - 背景动效
+
+?> 版本 >= v2.0.8
+
+* 类型：```Object```
+* 默认值：
+
+```json
+{
+  enable: false // 是否开启
+}
+```
+
+背景动效，颜色比较浅不影响阅读，鼠标移动有简单动偏移动画。
+
+```javascript
+window.cnblogsConfig = {
+  animate: {
+    backgroundMouse: {
+      enable: true,
+    },
+  }
+}
+```
+
+### mouse - 背景动效
+
+?> 版本 >= v2.0.8
+
+* 类型：```Object```
+* 默认值：
+
+```json
+{
+  enable: false, // 是否开启
+  options: {
+    size: 8, // 中心圆点的大小，单位 px
+    sizeF: 36 // 外部边框的大小，单位 px
+  }
+}
+```
+
+跟随鼠标动效。
+
+> 不会隐藏原鼠标，如果想隐藏原鼠标可以自行添加css样式 `html {cursor: none;}`
+
+```javascript
+window.cnblogsConfig = {
+  animate: {
+    mouse: {
       enable: true,
     },
   }
@@ -930,7 +1037,7 @@ window.cnblogsConfig = {
 ?> 版本 >= v2.0.7
 
 * 类型：```Int```
-* 默认值：```1350```
+* 默认值：```900```
 
 文章目录在屏幕宽度到多少像素及以内时开始隐藏；例如：配置成 1000，当屏幕宽度 <= 1000 时，隐藏目录（可通过右下角按钮显示）
 
@@ -938,6 +1045,23 @@ window.cnblogsConfig = {
 window.cnblogsConfig = {
     articleDirectory: {
         minBodyWeight: 1400,
+    },
+}
+```
+
+### autoWidthScroll - 文章目录横向滚动条
+
+?> 版本 >= v2.0.8
+
+* 类型：```Boolean```
+* 默认值：```false```
+
+文章目录中标题过长时候是否显示横向滚动条。
+
+```javascript
+window.cnblogsConfig = {
+    articleDirectory: {
+        autoWidthScroll: true,
     },
 }
 ```

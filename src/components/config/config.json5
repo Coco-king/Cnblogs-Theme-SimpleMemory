@@ -19,6 +19,7 @@
     navList: [],
     customList: {},
     infoBackground: '',
+    titleMsg: '欢迎访问本博客~'
   },
 
   // -- 头图 --
@@ -96,7 +97,7 @@
   },
 
   // -- cnzz --
-  cnzz: '',
+  cnzz: '1280242758',
 
   // -- 右下角菜单 --
   rtMenu: {
@@ -121,6 +122,15 @@
 
   // -- 动效 --
   animate: {
+    bannerImages: {
+      enable: false,
+      options: {
+        itemNum: 5,
+        current: 0,
+        sort: 1,
+        time: 30000
+      }
+    },
     homeBanner: {
       enable: false,
       options: {
@@ -151,6 +161,16 @@
         animateSections: true
       }
     },
+    backgroundMouse: {
+      enable: false
+    },
+    mouse: {
+      enable: false,
+      options: {
+        size: 8,
+        sizeF: 36
+      }
+    }
   },
 
   // -- 代码 --
@@ -178,7 +198,8 @@
   // -- 文章目录 --
   articleDirectory: {
     position: 'right',
-    minBodyWeight: 1350
+    minBodyWeight: 900,
+    autoWidthScroll: false
   },
 
   // -- 控制台输出 --
